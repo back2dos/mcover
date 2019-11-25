@@ -173,6 +173,8 @@ import sys.FileSystem;
 	function createBlockCoverageExpr(expr:Expr, startPos:Position, endPos:Position):Expr
 	{
 		var block = createCodeBlockReference(startPos, endPos, false);
+		if (block == null)
+			return expr;
 		
 		var blockId = Std.string(block.id);
 
@@ -200,7 +202,8 @@ import sys.FileSystem;
 	{
 		var pos = expr.pos;
 		var block = createCodeBlockReference(pos, pos, true);
-	
+		if (block == null)
+			return expr;
 		var blockId = Std.string(block.id);
 
 		var baseExpr = getReferenceToLogger(pos);
@@ -336,8 +339,8 @@ import sys.FileSystem;
 		{
 			error += "\n      " + cp;
 		}
-		Context.error(error, Context.currentPos());
-		throw new CoverageException(error);
+		// Context.error(error, Context.currentPos());
+		// throw new CoverageException(error);
 		return null;
 	}
 
